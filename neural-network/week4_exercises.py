@@ -32,10 +32,11 @@ N = 1000
 
 # Input variable
 x = np.expand_dims(np.linspace(0,1,N),axis=1)
+
 print(x.shape)
 
 # Target values
-y = 4*x**2 + 2*x + 1.0
+y = 4*x**2 + 2*x + 1.0 + 99*x**4
 
 n_inputs = x.shape
 n_outputs = 1
