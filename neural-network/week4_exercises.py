@@ -35,7 +35,7 @@ x = np.expand_dims(np.linspace(0,1,N),axis=1)
 print(x.shape)
 
 # Target values
-y = 4*x**2 + 2*x + 1.0
+y = 2*x + 1
 
 n_inputs = x.shape
 n_outputs = 1
@@ -60,6 +60,6 @@ ytilde = np.matmul(w_mat,x) + b_vec
 print(0.5*((ytilde-y)**2))
 
 #plt.plot(x,y)
-plt.plot(x,ytilde)
-plt.plot(x,y)
+plt.plot(x,ytilde,'bo')
+plt.plot(x,y,'r-')
 plt.show()
