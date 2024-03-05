@@ -16,6 +16,8 @@ df = pd.read_csv(URL)
 print(df)
 df_ = df.drop(columns=['species']).copy()
 
+df_.head()
+
 #print(df_.shape)
 
 # df_.plot.hist(alpha = 0.4, figsize = (12, 4))
