@@ -17,6 +17,9 @@ def gaussian_activation(value, mean, std_dev):
     return np.exp(-((value - mean) ** 2) / (2 * std_dev ** 2))
 
 
+print(gaussian_activation(2, 4, 0.1))
+
+
 std_dev = 0.1
 latencies = list()
 for column in df_.columns: #går gjennom hver kolonne
