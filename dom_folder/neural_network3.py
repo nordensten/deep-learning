@@ -44,18 +44,18 @@ class FFNN:
         self.n_hidden_neurons = 4
         self.n_categories = 1
 
-        print(f"input shape:", self.X.shape)
-        print(f"Target shape:", self.Y.shape)
+        # print(f"input shape:", self.X.shape)
+        # print(f"Target shape:", self.Y.shape)
 
         self.hidden_w = np.random.randn(self.n_input, self.n_hidden_neurons)
         self.output_w = np.random.randn(self.n_hidden_neurons, self.n_categories)
         self.hidden_b = np.zeros((1,self.n_hidden_neurons)) + 0.01
         self.output_b = np.zeros((1,self.n_categories)) + 0.01
 
-        print(f"hidden layer shape:", self.hidden_w.shape)
-        print(f"output layer shape:", self.output_w.shape)
-        print(f"hidden bias:", self.hidden_b.shape)
-        print(f"output bias:", self.output_b.shape)
+        # print(f"hidden layer shape:", self.hidden_w.shape)
+        # print(f"output layer shape:", self.output_w.shape)
+        # print(f"hidden bias:", self.hidden_b.shape)
+        # print(f"output bias:", self.output_b.shape)
 
         #print(self.hidden_w.shape)
 
