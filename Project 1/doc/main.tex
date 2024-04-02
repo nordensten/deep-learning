@@ -1,5 +1,48 @@
 \documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    }
+\usepackage[margin=1.0in]{geometry}
+\title{FYS5429 - Joint Project 1 \& 2 description}
+\author{Simon Nordensten, Jonny Aarstad Igeh, Domantas Sakalys}
+\date{March 2024}
 
 \begin{document}
 
+\maketitle
+
+\section*{Introduction}
+For this course, we've selected a project focusing on the exploration of Spiking Neural Networks (SNN) models. The foundation of our project primarily relies on a published article that introduces a supervised learning method for SNNs with an adaptive structure (source). Our primary objective is to reproduce the results presented in the article and explore potential modifications to enhance the model's performance. We will apply our model to classification problems, specifically analyzing data that includes various features of Iris flowers to classify distinct species.
+\\
+\\
+The model comprises three main components: Encoding, forward propagation from presynaptic to postsynaptic neurons, and training. Up to this point, we have successfully developed the code for the encoding part.
+
+\section*{Encoding}
+Following the encoding structure presented in this \href{https://medium.com/@tapwi93/first-steps-in-spiking-neural-networks-da3c82f538ad}{Medium article}, we set up the first layer in our SNN (pre-synaptic layer). What this layer attempts to emulate is the way the neurons in the brain, that are linked with the iris in the eye, gets stimulated in certain areas when observing certain shapes, colors etc. Each feature in the dataset will, in this specific encoding scheme, have 10 corresponding "neurons". These neurons are Gaussian curves, and they are evenly distributed between the extreme points of each feature in the dataset. An example is presented in figure \ref{fig:gauss_encode}. Here we've set the upper and lower points of the "feature" we are encoding to $4$ and $-1$, respectively. When we next want to give a score to the points in the dataset for each feature, we look to see which gaussian curves have overlap with the points, and also what value this gaussian curve returns for this specific point.  
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.60]{figs/gaussian_visualization.pdf}
+    \caption{Visualization of the guassian curves representing our neurons}
+    \label{fig:gauss_encode}
+\end{figure}
+\\ \\  From the figure \ref{fig:gauss_encode} we can see two datapoints, red and black. The red dot fully activates neuron number 4, yielding a $1.0$, while the black activates neuron 5 $\approx$ 0.5. We can assign latencies to these numerical values - where we say the latency is directly correlated with the activation of the neuron. Meaning, an activation of $1.0$ has a latency of $1.0 - 1.0 = 0$ms, and (depending on how one wishes to assign latency) an activation of $1.0 - 0.5 = 0.5$ms. We can "increase" the latency by scaling the difference, and this is just a conceptual way to think of the latency, we will look more into what are the most optimal procedures to assign latency to datapoints. This latency score is then used in the forward propagation, as will be explained in the next section.
+\newpage
+\section*{Forward propagation}
+In our initial attempt, we wish to model the network with two layers: a presynaptic (input) layer and a postsynaptic (output) layer. By following the encoding principle, which is described in the previous part, presynaptic neurons fire at distinct times basen on the input values, where earlier firing corresponds to higher values. These firing latencies are then conveyed to the postsynaptic layer, whichs employs the Leaky Integrate and Fire (LIF) model. In this layer, each postsynaptic neuron integrates all weighted latencies from previous layer into and accumulates a potential value. This potential gradually leaks over time if no new spikes are received. Once the accumulated potential crosses a specific threshold, the postsynaptic neuron fires, indicating a classification event.
+
+\section*{Training}\label{sec:train}
+
+Compared to traditional artifical neural networks (ANNs), the training of SNNs pose several challenges. SNNs are fundamentally different from ANNs in that they do not just process spatial patterns of data but also temporal patterns. Each neuron in an SNN integrates incoming spikes over time and fires its own spike when the membrane potential exceeds a certain threshold. This spike propagation is inherently time-dependent since the frequency of spikes and the time when the spikes occur relative to each other carries information. In turn the membrane potential activation and the reset mechanisms are both discontinuous events, and thus non-differentiable. Making the implementation of the backpropogation algorithm problematic as it relies on calculating gradients. For the training itself, we use reinforcement learning. Since every neuron in pre-synaptic layer is connected to all post-synaptic neurons, we simply increase the weight of the connection to the correct neuron, and decrease the weight for all the others. 
+
+
+
+
+
+\section*{Further plans}
+The current scope of our project is to successfully implement the general structure of a SNN - and find a clever solution to the problem of training, as we discussed in the training section \ref{sec:train}. This is the bottleneck of the project, and this does not have a simple solution. If and/or when we do manage to train our network, we will develop our network further to handle even more complex tasks, and add more complexity to our model network. We may result in benchmarking our SNN with other "traditional" CNNs for classification of images, to see if our model actually can outperform more established models.
 \end{document}
